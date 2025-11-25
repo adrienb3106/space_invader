@@ -13,13 +13,13 @@ Ce document décrit les étapes de développement prévues pour le jeu, en parta
 
 ## Phase 2 : Mécaniques de tir et ennemis
 
-- [ ] **Refactorisation en classes**
-  - [ ] Transformer le joueur en une classe `Player` pour mieux organiser le code.
-- [ ] **Tir du joueur**
-  - [ ] Créer une classe `Projectile`.
-  - [ ] Permettre au joueur de tirer (ex: avec la barre d'espace).
-  - [ ] Gérer le déplacement vertical des projectiles.
-  - [ ] Gérer la suppression des projectiles qui sortent de l'écran.
+- [x] **Refactorisation en classes**
+  - [x] Transformer le joueur en une classe `Player` pour mieux organiser le code.
+- [x] **Tir du joueur**
+  - [x] Créer une classe `Projectile`.
+  - [x] Permettre au joueur de tirer (ex: avec la barre d'espace).
+  - [x] Gérer le déplacement vertical des projectiles.
+  - [x] Gérer la suppression des projectiles qui sortent de l'écran.
 - [ ] **Création des ennemis**
   - [ ] Créer une classe `Enemy`.
   - [ ] Faire apparaître une ligne ou une grille d'ennemis en haut de l'écran.
