@@ -8,6 +8,7 @@ FPS = 60
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 
 # --- Configuration du joueur ---
 PLAYER_SIZE = 30
@@ -18,3 +19,9 @@ PLAYER_COLOR = WHITE
 PROJECTILE_SIZE = 5
 PROJECTILE_SPEED = 7
 PROJECTILE_COLOR = RED
+
+# --- Configuration des ennemis ---
+ENEMY_SIZE = 30
+ENEMY_SPEED = 2
+ENEMY_COLOR = GREEN
+DESCENT_SPEED = ENEMY_SIZE / 2

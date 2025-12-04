@@ -1,5 +1,5 @@
 import pygame
-from classes import Player, Projectile
+from classes import Player, Projectile, Enemy
 from config import *
 
 def main():
@@ -23,6 +23,9 @@ def main():
     start_y = SCREEN_HEIGHT - (1.5 * PLAYER_SIZE)
     player = Player(start_x, start_y, PLAYER_SIZE, PLAYER_SPEED, SCREEN_WIDTH)
 
+    # --- Création d'un ennemi (Test) ---
+    enemy = Enemy(SCREEN_WIDTH / 2, 50, ENEMY_SIZE, ENEMY_SPEED)
+
     # --- Liste pour les projectiles ---
     projectiles = []
 
@@ -44,6 +47,10 @@ def main():
 
         # --- Mises à jour logiques ---
         player.move()
+        enemy.move()
+        if enemy.check_edges(SCREEN_WIDTH):
+            enemy.move_down(DESCENT_SPEED)
+            enemy.direction *= -1
         
         # Mouvement des projectiles
         for proj in projectiles:
@@ -56,6 +63,7 @@ def main():
         screen.fill(BLACK)
         
         player.draw(screen)
+        enemy.draw(screen)
         
         # Dessin des projectiles
         for proj in projectiles:
