@@ -1,4 +1,5 @@
 import pygame
+from config import PLAYER_COLOR, PROJECTILE_COLOR
 
 class Player:
     def __init__(self, x, y, size, speed, screen_width):
@@ -8,6 +9,7 @@ class Player:
         self.rect = pygame.Rect(x, y, size, size)
         self.speed = speed
         self.screen_width = screen_width
+        self.color = PLAYER_COLOR
         
     def move(self):
         """
@@ -30,10 +32,10 @@ class Player:
         """
         Dessine le joueur sur l'écran.
         """
-        pygame.draw.rect(screen, (255, 255, 255), self.rect)
+        pygame.draw.rect(screen, self.color, self.rect)
 
 class Projectile:
-    def __init__(self, x, y, size, speed, color=(255, 0, 0)):
+    def __init__(self, x, y, size, speed, color=PROJECTILE_COLOR):
         """
         Initialise le projectile.
         """

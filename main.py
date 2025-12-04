@@ -1,5 +1,6 @@
 import pygame
 from classes import Player, Projectile
+from config import *
 
 def main():
     """
@@ -9,17 +10,6 @@ def main():
     # Initialisation de Pygame
     pygame.init()
 
-    # --- Constantes du jeu ---
-    SCREEN_WIDTH = 800
-    SCREEN_HEIGHT = 600
-    FPS = 60
-
-    PLAYER_SIZE = 30
-    PLAYER_SPEED = 5
-    
-    PROJECTILE_SIZE = 5
-    PROJECTILE_SPEED = 7
-    
     # --- Configuration de la fenêtre ---
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Jeu Pygame")
@@ -63,7 +53,7 @@ def main():
         projectiles = [proj for proj in projectiles if proj.rect.bottom > 0]
 
         # --- Rendu graphique ---
-        screen.fill((0, 0, 0))
+        screen.fill(BLACK)
         
         player.draw(screen)
         
