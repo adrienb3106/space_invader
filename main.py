@@ -2,6 +2,23 @@ import pygame
 from classes import Player, Projectile, Enemy
 from config import *
 
+def create_fleet():
+    """
+    Crée une flotte d'ennemis et les retourne dans un dictionnaire.
+    """
+    enemies = {}
+    enemy_id = 0
+    for row in range(ENEMY_ROWS):
+        for col in range(ENEMY_COLS):
+            # Calcul de la position
+            x = 50 + col * (ENEMY_SIZE + ENEMY_PADDING)
+            y = 50 + row * (ENEMY_SIZE + ENEMY_PADDING)
+            
+            new_enemy = Enemy(x, y, ENEMY_SIZE, ENEMY_SPEED)
+            enemies[enemy_id] = new_enemy
+            enemy_id += 1
+    return enemies
+
 def main():
     """
     Fonction principale du jeu.
@@ -23,8 +40,8 @@ def main():
     start_y = SCREEN_HEIGHT - (1.5 * PLAYER_SIZE)
     player = Player(start_x, start_y, PLAYER_SIZE, PLAYER_SPEED, SCREEN_WIDTH)
 
-    # --- Création d'un ennemi (Test) ---
-    enemy = Enemy(SCREEN_WIDTH / 2, 50, ENEMY_SIZE, ENEMY_SPEED)
+    # --- Création de la flotte d'ennemis ---
+    enemies = create_fleet()
 
     # --- Liste pour les projectiles ---
     projectiles = []
@@ -47,10 +64,21 @@ def main():
 
         # --- Mises à jour logiques ---
         player.move()
-        enemy.move()
-        if enemy.check_edges(SCREEN_WIDTH):
-            enemy.move_down(DESCENT_SPEED)
-            enemy.direction *= -1
+        
+        # Logique de déplacement de la flotte
+        fleet_touched_edge = False
+        for enemy in enemies.values():
+            if enemy.check_edges(SCREEN_WIDTH):
+                fleet_touched_edge = True
+                break
+        
+        if fleet_touched_edge:
+            for enemy in enemies.values():
+                enemy.direction *= -1
+                enemy.move_down(DESCENT_SPEED)
+        
+        for enemy in enemies.values():
+            enemy.move()
         
         # Mouvement des projectiles
         for proj in projectiles:
@@ -59,11 +87,34 @@ def main():
         # Suppression des projectiles hors de l'écran
         projectiles = [proj for proj in projectiles if proj.rect.bottom > 0]
 
+        # --- Gestion des collisions ---
+        # Projectile <-> Ennemi
+        projectiles_to_remove = []
+        enemies_to_remove = []
+
+        for proj in projectiles:
+            for enemy_id, enemy in enemies.items():
+                if proj.rect.colliderect(enemy.rect):
+                    projectiles_to_remove.append(proj)
+                    enemies_to_remove.append(enemy_id)
+                    break # Un projectile ne touche qu'un seul ennemi
+
+        # Suppression des éléments touchés
+        for proj in projectiles_to_remove:
+            if proj in projectiles:
+                projectiles.remove(proj)
+        
+        for enemy_id in enemies_to_remove:
+            if enemy_id in enemies:
+                del enemies[enemy_id]
+
         # --- Rendu graphique ---
         screen.fill(BLACK)
         
         player.draw(screen)
-        enemy.draw(screen)
+        
+        for enemy in enemies.values():
+            enemy.draw(screen)
         
         # Dessin des projectiles
         for proj in projectiles:
